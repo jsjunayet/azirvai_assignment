@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 const ProjectCard = ({ project }: { project: any }) => {
   console.log("project card details", project);

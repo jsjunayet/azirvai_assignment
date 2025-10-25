@@ -1,4 +1,5 @@
 "use server";
+import { Blog } from "@/types";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -58,9 +59,7 @@ export const getSingleBlog = async (id: string) => {
   }
 };
 // create post
-export const createBlog = async (
-  postData: Record<string, any>
-): Promise<any> => {
+export const createBlog = async (postData: any): Promise<Blog> => {
   const token = (await cookies()).get("accessToken")!.value;
   console.log(postData);
 
@@ -82,10 +81,7 @@ export const createBlog = async (
   }
 };
 // create post
-export const UpdateBlog = async (
-  postData: Record<string, any>,
-  id: string
-): Promise<any> => {
+export const UpdateBlog = async (postData: any, id: string): Promise<any> => {
   console.log(postData, id);
   const token = (await cookies()).get("accessToken")!.value;
 

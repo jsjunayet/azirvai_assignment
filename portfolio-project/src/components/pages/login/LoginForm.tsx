@@ -41,8 +41,9 @@ const LoginForm = () => {
       } else {
         toast.error(res?.message || "Invalid credentials!");
       }
-    } catch (err: any) {
-      toast.error(err.message || "Something went wrong!");
+    } catch (err) {
+      const typedError = err as Error;
+      toast.error("Something went wrong!");
     }
   };
 

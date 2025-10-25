@@ -26,7 +26,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { ApiError, ProjectsResponse } from "@/types";
 import { Edit, Loader2, Plus, Trash2 } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 
@@ -47,9 +49,9 @@ const projectSchema = z.object({
 
 export default function ProjectManager() {
   const [isOpen, setIsOpen] = useState(false);
-  const [projects, setProjects] = useState<{ data: any[] }>({ data: [] });
-  const [isLoading, setIsLoading] = useState(true);
-  const [editingProject, setEditingProject] = useState<any>(null);
+  const [projects, setProjects] = useState<ProjectsResponse>({ data: [] });
+  const [loading, setLoading] = useState(false);
+  const [editingProject, setEditingProject] = useState<any | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     title: "",
@@ -87,7 +89,7 @@ export default function ProjectManager() {
       } catch (error) {
         console.error(error);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     })();
   }, []);
@@ -115,11 +117,11 @@ export default function ProjectManager() {
 
     const data = new FormData();
     data.append("file", file);
-    data.append("upload_preset", "BDsmartLeadX");
+    data.append("upload_preset", "Azir-uploads");
 
     try {
       const res = await fetch(
-        `https://api.cloudinary.com/v1_1/dvqnxxurv/image/upload`,
+        `https://api.cloudinary.com/v1_1/dft2gbhxw/image/upload`,
         { method: "POST", body: data }
       );
 
@@ -167,7 +169,8 @@ export default function ProjectManager() {
       setProjects(updated);
       setIsOpen(false);
       resetForm();
-    } catch (error: any) {
+    } catch (error) {
+      const typedError = error as ApiError;
       console.log(error);
     }
   };
@@ -272,7 +275,9 @@ export default function ProjectManager() {
                 <Label>Project Image</Label>
                 {formData.image ? (
                   <div className="flex flex-col items-start gap-2">
-                    <img
+                    <Image
+                      height={500}
+                      width={500}
                       src={formData.image}
                       alt="Preview"
                       className="w-32 h-32 object-cover rounded-md border"
@@ -362,7 +367,7 @@ export default function ProjectManager() {
       </div>
 
       {/* Projects List */}
-      {isLoading ? (
+      {loading ? (
         <div className="flex justify-center p-12">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
@@ -371,7 +376,9 @@ export default function ProjectManager() {
           {projects?.data.map((project: any) => (
             <Card key={project.id} className="glass-effect hover-lift">
               {project.image && (
-                <img
+                <Image
+                  height={500}
+                  width={800}
                   src={project.image}
                   alt={project.title}
                   className="w-full h-48 object-cover rounded-t-lg"

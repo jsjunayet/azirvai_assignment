@@ -27,7 +27,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { ApiError } from "@/types";
 import { Edit, Loader2, Plus, Trash2 } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -46,9 +48,9 @@ const blogSchema = z.object({
 
 export default function BlogManager() {
   const [isOpen, setIsOpen] = useState(false);
-  const [blogs, setBlogs] = useState<{ data: any[] }>({ data: [] });
-  const [loading, setLoading] = useState(true);
-  const [editingBlog, setEditingBlog] = useState<any>(null);
+  const [blogs, setBlogs] = useState<any>({ data: [] });
+  const [loading, setLoading] = useState(false);
+  const [editingBlog, setEditingBlog] = useState<any | null>(null);
   const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -96,11 +98,11 @@ export default function BlogManager() {
 
     const data = new FormData();
     data.append("file", file);
-    data.append("upload_preset", "BDsmartLeadX"); // 🔁 replace with your Cloudinary preset
+    data.append("upload_preset", "Azir-uploads"); // 🔁 replace with your Cloudinary preset
 
     try {
       const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dvqnxxurv/image/upload", // 🔁 replace with your cloud name
+        "https://api.cloudinary.com/v1_1/dft2gbhxw/image/upload", // 🔁 replace with your cloud name
         {
           method: "POST",
           body: data,
@@ -143,7 +145,6 @@ export default function BlogManager() {
       const payload = { ...formattedData, authorId: currentUserId };
 
       if (editingBlog) {
-        console.log(editingBlog.id, payload);
         const res = await UpdateBlog(payload, editingBlog.id);
         console.log(res);
         toast.success("Blog updated successfully");
@@ -157,7 +158,8 @@ export default function BlogManager() {
       setBlogs(refreshed);
       setIsOpen(false);
       resetForm();
-    } catch (error: any) {
+    } catch (error) {
+      const typedError = error as ApiError;
       console.log(error);
     } finally {
       setLoading(false);
@@ -270,7 +272,9 @@ export default function BlogManager() {
               <div>
                 <Label>Thumbnail Image</Label>
                 {formData.thumbnail && (
-                  <img
+                  <Image
+                    width={128}
+                    height={128}
                     src={formData.thumbnail}
                     alt="Thumbnail Preview"
                     className="w-32 h-32 object-cover rounded-md mb-2 border"

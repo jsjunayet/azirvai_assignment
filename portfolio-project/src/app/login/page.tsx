@@ -1,6 +1,5 @@
 import LoginForm from "@/components/pages/login/LoginForm";
 import { Metadata } from "next";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Portfolio Project | Login",
@@ -8,11 +7,7 @@ export const metadata: Metadata = {
 };
 
 const LoginPage = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <LoginForm />
-    </Suspense>
-  );
+  return <LoginForm />;
 };
 
 export default LoginPage;

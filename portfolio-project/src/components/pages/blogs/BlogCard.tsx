@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function BlogCard({ blog }: { blog: any }) {
   return (

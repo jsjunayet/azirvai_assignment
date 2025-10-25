@@ -10,11 +10,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ProjectsResponse } from "@/types";
 import { ExternalLink, Github } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const Projects = () => {
-  const [projects, setProjects] = useState<{ data: any[] }>({ data: [] });
+  const [projects, setProjects] = useState<ProjectsResponse>({ data: [] });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     const fetchProjects = async () => {
@@ -65,7 +67,9 @@ const Projects = () => {
                 >
                   {project.image && (
                     <div className="relative h-48 overflow-hidden">
-                      <img
+                      <Image
+                        width={400}
+                        height={400}
                         src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"

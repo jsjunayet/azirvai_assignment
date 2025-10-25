@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+import { DashboardOverview, UserData } from "@/types";
 import { jwtDecode } from "jwt-decode";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
@@ -22,12 +22,12 @@ export const SignUpUser = async (userData: FieldValues) => {
     console.log(result);
 
     return result;
-  } catch (error: any) {
-    return Error(error);
+  } catch (error) {
+    console.log(error);
   }
 };
 
-export const loginUser = async (userData: any) => {
+export const loginUser = async (userData: UserData) => {
   try {
     const res = await fetch(`http://localhost:5000/api/v1/auth/login`, {
       method: "POST",
@@ -79,7 +79,7 @@ export const verifyUser = async (id: string) => {
   }
 };
 
-export const dashbaordOverview = async (): Promise<any> => {
+export const dashbaordOverview = async (): Promise<DashboardOverview> => {
   const token = (await cookies()).get("accessToken")!.value;
 
   try {

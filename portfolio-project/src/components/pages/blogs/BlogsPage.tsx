@@ -15,7 +15,7 @@ import Link from "next/link";
 // ISR every 60 seconds
 export const revalidate = 60;
 
-export default async function BlogPage() {
+export default async function BlogsPage() {
   const blogs = await getAllBlog();
 
   return (
