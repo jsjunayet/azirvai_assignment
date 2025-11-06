@@ -1,153 +1,199 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  AtSign,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Phone,
+  Send,
+  User,
+} from "lucide-react";
+import { useInView } from "react-intersection-observer";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
-import { toast } from "sonner";
-
-const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
+const Contact = () => {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.name || !formData.email || !formData.message) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      // Simulate API call or connect with your backend endpoint
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      toast.success("Message sent successfully!");
-      setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
-    <section
-      id="contact"
-      className=" bg-gradient-to-b from-gray-900 to-gray-950 text-gray-100 py-10 px-6 md:px-12"
-    >
-      {/* Header */}
-      <div className="max-w-3xl mx-auto text-center">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-bold mb-4"
+    <section ref={ref} className="relative py-10 px-4 overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
+
+      <div className="container max-w-6xl mx-auto relative z-10">
+        <div
+          className={`text-center mb-16 transition-all duration-1000 ${
+            inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
         >
-          Contact <span className="text-primary">Me</span>
-        </motion.h1>
-        <p className="text-gray-400 max-w-2xl mx-auto">
-          Have a project in mind or just want to say hi? Fill out the form
-          below, and I’ll get back to you as soon as possible.
-        </p>
-      </div>
-
-      {/* Contact Form */}
-      <motion.form
-        onSubmit={handleSubmit}
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="max-w-3xl mx-auto mt-12 bg-gray-800/40 border border-gray-700 rounded-2xl p-8 shadow-xl backdrop-blur-md"
-      >
-        <div className="grid md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium mb-2 text-gray-300"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 focus:border-primary focus:ring-primary text-gray-100 outline-none transition"
-              placeholder="Your name"
-            />
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 animate-pulse">
+            <MessageSquare className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-primary">
+              Let&apos;s Connect
+            </span>
           </div>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium mb-2 text-gray-300"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 focus:border-primary focus:ring-primary text-gray-100 outline-none transition"
-              placeholder="you@example.com"
-            />
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            Get In Touch
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Have a project in mind? Let&apos;s discuss how we can work together
+            to bring your ideas to life
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12">
+          {/* Contact Info */}
+          <div
+            className={`space-y-8 transition-all duration-700 delay-100 ${
+              inView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+            }`}
+          >
+            <div>
+              <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
+              <p className="text-muted-foreground leading-relaxed mb-8">
+                I&apos;m always open to discussing new projects, creative ideas,
+                or opportunities to be part of your visions. Feel free to reach
+                out through any of the channels below.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="group relative overflow-hidden p-6 rounded-2xl bg-gradient-to-br from-card to-card/50 border border-border hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <div className="relative flex items-center gap-4">
+                  <div className="p-4 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl group-hover:scale-110 transition-transform duration-500">
+                    <Mail className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Email Address
+                    </p>
+                    <p className="font-semibold text-lg">
+                      azir.uddin@example.com
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group relative overflow-hidden p-6 rounded-2xl bg-gradient-to-br from-card to-card/50 border border-border hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <div className="relative flex items-center gap-4">
+                  <div className="p-4 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl group-hover:scale-110 transition-transform duration-500">
+                    <Phone className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Phone Number
+                    </p>
+                    <p className="font-semibold text-lg">+1 (555) 123-4567</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group relative overflow-hidden p-6 rounded-2xl bg-gradient-to-br from-card to-card/50 border border-border hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <div className="relative flex items-center gap-4">
+                  <div className="p-4 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl group-hover:scale-110 transition-transform duration-500">
+                    <MapPin className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Location
+                    </p>
+                    <p className="font-semibold text-lg">San Francisco, CA</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div
+            className={`transition-all duration-700 delay-200 ${
+              inView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+            }`}
+          >
+            <div className="relative group">
+              {/* Glowing Border Effect */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-primary-glow to-primary rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500" />
+
+              <div className="relative bg-card border border-border rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
+                <div className="mb-4">
+                  <h3 className="text-2xl font-bold mb-2">Send a Message</h3>
+                  <p className="text-muted-foreground">
+                    Fill out the form below and I&apos;ll get back to you soon
+                  </p>
+                </div>
+
+                <form className="space-y-3">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium flex items-center gap-2">
+                      <User className="w-4 h-4 text-primary" />
+                      Full Name
+                    </label>
+                    <Input
+                      placeholder="John Doe"
+                      className="h-12 bg-background/50 border-border focus:border-primary transition-all duration-300"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium flex items-center gap-2">
+                      <AtSign className="w-4 h-4 text-primary" />
+                      Email Address
+                    </label>
+                    <Input
+                      type="email"
+                      placeholder="john@example.com"
+                      className="h-12 bg-background/50 border-border focus:border-primary transition-all duration-300"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium flex items-center gap-2">
+                      <MessageSquare className="w-4 h-4 text-primary" />
+                      Subject
+                    </label>
+                    <Input
+                      placeholder="Project Inquiry"
+                      className="h-12 bg-background/50 border-border focus:border-primary transition-all duration-300"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-primary" />
+                      Message
+                    </label>
+                    <Textarea
+                      placeholder="Tell me about your project, ideas, or any questions you have..."
+                      className="min-h-[120px] resize-none bg-background/50 border-border focus:border-primary transition-all duration-300"
+                    />
+                  </div>
+
+                  <Button
+                    size="lg"
+                    className="w-full group/btn relative overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/50 transition-all duration-500"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      Send Message
+                      <Send className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary-glow to-primary opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+                  </Button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className="mt-6">
-          <label
-            htmlFor="message"
-            className="block text-sm font-medium mb-2 text-gray-300"
-          >
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            rows={5}
-            className="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 focus:border-primary focus:ring-primary text-gray-100 outline-none transition"
-            placeholder="Write your message..."
-          />
-        </div>
-
-        <div className="mt-8 text-center">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-primary hover:bg-primary/80 disabled:opacity-70 transition text-white px-8 py-3 rounded-lg font-medium"
-          >
-            {isSubmitting ? "Sending..." : "Send Message"}
-          </button>
-        </div>
-      </motion.form>
-
-      {/* Contact Info */}
-      <div className="max-w-4xl mx-auto mt-10 text-center">
-        <p className="text-gray-400">
-          Or reach me directly via{" "}
-          <a href="mailto:youremail@example.com" className=" hover:underline">
-            youremail@example.com
-          </a>
-        </p>
-        <p className="text-gray-400 mt-1">Based in Lisbon, Portugal 🇵🇹</p>
       </div>
     </section>
   );
 };
 
-export default ContactPage;
+export default Contact;

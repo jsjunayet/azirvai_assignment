@@ -4,6 +4,7 @@ import type { NextConfig } from "next";
 //   /* config options here */
 // };
 const nextConfig: NextConfig = {
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       {

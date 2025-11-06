@@ -25,13 +25,13 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { Textarea } from "@/components/ui/textarea";
 import { ApiError, ProjectsResponse } from "@/types";
 import { Edit, Loader2, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-
 // ✅ Validation schema (sync with backend)
 const projectSchema = z.object({
   title: z.string().min(1, "Title is required").max(200, "Title too long"),
@@ -254,14 +254,16 @@ export default function ProjectManager() {
               </div>
 
               <div className="space-y-2">
-                <Label>Description *</Label>
-                <Textarea
-                  placeholder="Project description..."
+                <Label htmlFor="description">Description *</Label>
+                <RichTextEditor
                   value={formData.description}
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
+                  onChange={(value) =>
+                    setFormData({ ...formData, description: value })
                   }
-                  className={errors.description ? "border-destructive" : ""}
+                  placeholder="Describe your project..."
+                  className={
+                    errors.description ? "border-destructive rounded-md" : ""
+                  }
                 />
                 {errors.description && (
                   <p className="text-sm text-destructive">

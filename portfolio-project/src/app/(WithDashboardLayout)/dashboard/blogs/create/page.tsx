@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { ApiError } from "@/types";
 import { Edit, Loader2, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
@@ -256,16 +256,21 @@ export default function BlogManager() {
                 )}
               </div>
 
-              <div>
-                <Label>Content *</Label>
-                <Textarea
+              <div className="space-y-2">
+                <Label htmlFor="content">Content *</Label>
+                <RichTextEditor
                   value={formData.content}
-                  onChange={(e) =>
-                    setFormData({ ...formData, content: e.target.value })
+                  onChange={(value) =>
+                    setFormData({ ...formData, content: value })
                   }
-                  rows={8}
-                  placeholder="Your blog content..."
+                  placeholder="Write your blog content here..."
+                  className={
+                    errors.content ? "border-destructive rounded-md" : ""
+                  }
                 />
+                {errors.content && (
+                  <p className="text-sm text-destructive">{errors.content}</p>
+                )}
               </div>
 
               {/* ✅ Image Upload */}

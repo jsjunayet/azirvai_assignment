@@ -1,11 +1,12 @@
 import BlogsPage from "@/components/pages/blogs/BlogsPage";
-import ContactPage from "@/components/pages/contact/ContactPage";
+import Contact from "@/components/pages/contact/ContactPage";
 import EducationPage from "@/components/pages/education/EducationPage";
 import Experience from "@/components/pages/experience/ExperiencePage";
 import Hero from "@/components/pages/home/Hero";
 import ProjectsPage from "@/components/pages/projects/ProjectsPage";
 import ServicesPage from "@/components/pages/services/ServicesPage";
-import SkillsPage from "@/components/pages/skills/SkillsPage";
+import Skills from "@/components/pages/skills/SkillsPage";
+import ParticleBackground from "@/components/partailBackground/PartailBackground";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,14 +17,15 @@ export const metadata: Metadata = {
 const HomePage = () => {
   return (
     <div className="min-h-screen">
+      <ParticleBackground />
       <Hero />
       <Experience />
-      <SkillsPage />
+      <Skills />
       <ProjectsPage />
       <ServicesPage />
       <EducationPage />
       <BlogsPage />
-      <ContactPage />
+      <Contact />
     </div>
   );
 };

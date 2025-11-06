@@ -1,161 +1,252 @@
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { useTheme } from "@/contexts/ThemeContext";
+"use client";
 import {
-  Code,
-  Database,
-  Cpu,
-  Wrench,
-  GitBranch,
-  Globe,
-  Terminal,
   Cloud,
-  Server,
+  Code2,
+  Container,
+  Cpu,
+  Database,
+  FileCode,
+  GitBranch,
   Layers,
-  Settings,
-  Lock,
+  Layout,
+  Palette,
+  Server,
+  Sparkles,
+  Zap,
 } from "lucide-react";
-import { LucideIcon } from "lucide-react";
+import { useState } from "react";
+import { useInView } from "react-intersection-observer";
 
-type Skill = {
-  name: string;
-  icon: LucideIcon;
-};
-interface SkillCardProps {
-  title: string;
-  skills: Skill[];
-  delay: number;
-}
-const SkillsPage = () => {
-  //   const { theme } = useTheme();
+const skillCategories = [
+  {
+    title: "Frontend Development",
+    icon: Layout,
+    skills: [
+      { name: "React", level: 95, icon: FileCode },
+      { name: "Next.js", level: 90, icon: Zap },
+      { name: "TypeScript", level: 95, icon: Code2 },
+      { name: "Tailwind CSS", level: 92, icon: Palette },
+      { name: "JavaScript", level: 97, icon: Code2 },
+    ],
+  },
+  {
+    title: "Backend Development",
+    icon: Server,
+    skills: [
+      { name: "Node.js", level: 90, icon: Cpu },
+      { name: "Python", level: 85, icon: Code2 },
+      { name: "Express.js", level: 88, icon: Layers },
+      { name: "FastAPI", level: 82, icon: Zap },
+      { name: "REST APIs", level: 92, icon: Server },
+    ],
+  },
+  {
+    title: "Database & Cloud",
+    icon: Database,
+    skills: [
+      { name: "PostgreSQL", level: 90, icon: Database },
+      { name: "MongoDB", level: 88, icon: Database },
+      { name: "AWS", level: 85, icon: Cloud },
+      { name: "Redis", level: 80, icon: Zap },
+    ],
+  },
+  {
+    title: "DevOps & Tools",
+    icon: Container,
+    skills: [
+      { name: "Git", level: 95, icon: GitBranch },
+      { name: "Docker", level: 88, icon: Container },
+      { name: "CI/CD", level: 85, icon: Zap },
+      { name: "Kubernetes", level: 82, icon: Cloud },
+    ],
+  },
+];
 
-  // 🧠 Programming Languages
-  const softSkills: Skill[] = [
-    { name: "HTML5", icon: Globe },
-    { name: "CSS3", icon: Globe },
-    { name: "Tailwind CSS", icon: Wrench },
-    { name: "JavaScript", icon: Code },
-    { name: "TypeScript", icon: Code },
-  ];
+const Skills = () => {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
 
-  // ⚛️ Frameworks / Libraries
-  const tools: Skill[] = [
-    { name: "React.js", icon: Cpu },
-    { name: "Next.js", icon: Globe },
-    { name: "Node.js", icon: Terminal },
-    { name: "Express.js", icon: Server },
-    { name: "Redux", icon: GitBranch },
-    { name: "RTK Query", icon: GitBranch },
-    { name: "Zod", icon: Layers },
-    { name: "MUI", icon: Settings },
-    { name: "ShadCN UI", icon: Settings },
-    { name: "Tailwind CSS", icon: Wrench },
-    { name: "JWT", icon: Lock },
-  ];
-
-  // 🗄️ Databases
-  const databases: Skill[] = [
-    { name: "MongoDB", icon: Database },
-    { name: "Mongoose", icon: Database },
-    { name: "PostgreSQL", icon: Database },
-    { name: "MySQL", icon: Database },
-    { name: "Prisma", icon: Layers },
-    { name: "Firebase", icon: Cloud },
-  ];
-
-  // ⚙️ Dev Tools
-  const devTools: Skill[] = [
-    { name: "Git & GitHub", icon: GitBranch },
-    { name: "Postman", icon: Terminal },
-    { name: "Vercel", icon: Cloud },
-    { name: "Netlify", icon: Cloud },
-    { name: "Render", icon: Cloud },
-  ];
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   return (
     <section
-      id="skills"
-      className="py-12 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800"
+      ref={ref}
+      className="py-10 px-4 bg-secondary/20 relative overflow-hidden"
     >
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16 animate-fade-in">
+      {/* Animated background particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-primary/20 rounded-full animate-float"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 4}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="container max-w-6xl mx-auto relative z-10">
+        <div
+          className={`text-center mb-16 transition-all duration-1000 ${
+            inView
+              ? "opacity-100 translate-y-0 scale-100"
+              : "opacity-0 translate-y-20 scale-95"
+          }`}
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 animate-pulse">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span className="text-sm font-semibold text-primary">
+              Technical Arsenal
+            </span>
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Technical Proficiency
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            Comprehensive expertise in modern full-stack web development using
-            the MERN stack (MongoDB, Express.js, React, Node.js).
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            A comprehensive overview of my technical skills and expertise across
+            various domains
           </p>
         </div>
 
-        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* 🧠 Programming Languages */}
-          <SkillCard
-            title="Programming Languages"
-            skills={softSkills}
-            // theme={theme}
-            delay={0.4}
-          />
+        <div className="grid md:grid-cols-2 gap-8">
+          {skillCategories.map((category, index) => {
+            const Icon = category.icon;
+            const isHovered = hoveredCard === index;
 
-          {/* ⚛️ Frameworks / Libraries */}
-          <SkillCard
-            title="Frameworks / Libraries"
-            skills={tools}
-            // theme={theme}
-            delay={0.6}
-          />
+            return (
+              <div
+                key={index}
+                className={`transition-all duration-700 ${
+                  inView
+                    ? "opacity-100 translate-y-0 translate-x-0"
+                    : `opacity-0 ${
+                        index % 2 === 0 ? "-translate-x-20" : "translate-x-20"
+                      } translate-y-20`
+                }`}
+                style={{
+                  transitionDelay: `${index * 150}ms`,
+                }}
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
+              >
+                <div
+                  className={`group bg-card border border-border rounded-2xl p-6 shadow-lg h-full relative overflow-hidden transition-all duration-500 ${
+                    isHovered
+                      ? "shadow-2xl shadow-primary/20 -translate-y-2 border-primary/50"
+                      : "hover:shadow-xl"
+                  }`}
+                  style={{
+                    transform: isHovered
+                      ? "perspective(1000px) rotateX(2deg) rotateY(-2deg)"
+                      : "perspective(1000px) rotateX(0deg) rotateY(0deg)",
+                  }}
+                >
+                  {/* Animated gradient background */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary-glow/5 transition-opacity duration-500 ${
+                      isHovered ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
 
-          {/* 🗄️ Databases */}
-          <SkillCard
-            title="Databases"
-            skills={databases}
-            // theme={theme}
-            delay={0.8}
-          />
+                  {/* Shine effect */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] transition-transform duration-1000 ${
+                      isHovered ? "translate-x-[200%]" : ""
+                    }`}
+                  />
 
-          {/* ⚙️ Dev Tools */}
-          <SkillCard
-            title="Dev Tools"
-            skills={devTools}
-            // theme={theme}
-            delay={1.0}
-          />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-8">
+                      <div
+                        className={`p-3 bg-gradient-to-br from-primary to-primary-glow rounded-xl shadow-lg transition-all duration-500 ${
+                          isHovered
+                            ? "scale-110 rotate-6 shadow-primary/50"
+                            : "scale-100 rotate-0"
+                        }`}
+                      >
+                        <Icon className="w-6 h-6 text-primary-foreground" />
+                      </div>
+                      <h3 className="text-xl font-bold flex-1">
+                        {category.title}
+                      </h3>
+                      <div
+                        className={`text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary transition-all duration-300 ${
+                          isHovered
+                            ? "opacity-100 translate-x-0"
+                            : "opacity-0 translate-x-4"
+                        }`}
+                      >
+                        {category.skills.length} Skills
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      {category.skills.map((skill, skillIndex) => {
+                        const SkillIcon = skill.icon;
+                        return (
+                          <div
+                            key={skillIndex}
+                            className={`group/skill transition-all duration-500 ${
+                              inView
+                                ? "opacity-100 translate-x-0"
+                                : "opacity-0 -translate-x-10"
+                            }`}
+                            style={{
+                              transitionDelay: `${
+                                index * 150 + skillIndex * 80
+                              }ms`,
+                            }}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2 group/skill-name cursor-default">
+                                <div className="p-1.5 bg-primary/10 rounded-md group-hover/skill:bg-primary group-hover/skill:scale-110 transition-all duration-300">
+                                  <SkillIcon className="w-3.5 h-3.5 text-primary group-hover/skill:text-primary-foreground" />
+                                </div>
+                                <span className="text-sm font-medium group-hover/skill:text-primary transition-colors">
+                                  {skill.name}
+                                </span>
+                              </div>
+                              <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded-md">
+                                {skill.level}%
+                              </span>
+                            </div>
+
+                            {/* Animated skill progress bar */}
+                            <div className="h-2.5 bg-muted rounded-full overflow-hidden shadow-inner">
+                              <div
+                                className={`h-full bg-gradient-to-r from-primary via-primary-glow to-primary rounded-full transition-all duration-1000 ease-out relative shadow-lg ${
+                                  inView ? "scale-x-100" : "scale-x-0"
+                                }`}
+                                style={{
+                                  width: `${skill.level}%`,
+                                  transformOrigin: "left",
+                                  transitionDelay: `${
+                                    index * 150 + skillIndex * 80 + 200
+                                  }ms`,
+                                }}
+                              >
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-[slide-in-right_2s_ease-in-out_infinite]" />
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 };
 
-// 🔧 Reusable Skill Card Component
-const SkillCard: React.FC<SkillCardProps> = ({
-  title,
-  skills,
-
-  delay,
-}) => (
-  <Card
-    className="shadow-lg border-0 animate-fade-in hover-lift"
-    style={{ animationDelay: `${delay}s` }}
-  >
-    <CardHeader>
-      <CardTitle className="text-xl font-bold text-gray-900">{title}</CardTitle>
-    </CardHeader>
-    <CardContent>
-      <div className="flex flex-wrap gap-2">
-        {skills.map((skill, index) => (
-          <Badge
-            key={index}
-            variant="secondary"
-            className="flex items-center gap-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-gray-800 dark:to-gray-700 text-blue-800 dark:text-gray-200 text-sm md:text-base hover:from-blue-200 hover:to-purple-200 dark:hover:from-gray-700 dark:hover:to-gray-600 animate-fade-in"
-            style={{ animationDelay: `${delay + index * 0.1}s` }}
-          >
-            <skill.icon className="w-4 h-4" />
-            {skill.name}
-          </Badge>
-        ))}
-      </div>
-    </CardContent>
-  </Card>
-);
-
-export default SkillsPage;
+export default Skills;
